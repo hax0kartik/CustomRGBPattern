@@ -71,8 +71,14 @@ int main()
 		fprintf(file, "		dcb 0x%X\n", pat.b[i]);
 	fprintf(file, ".close");
 	fclose(file);
-	mkdir("out");
-	mkdir("out/0004013000003502");
-	system("armips.exe patch.s");
+	#ifdef _WIN32
+		mkdir("out");
+		mkdir("out/0004013000003502");
+		system("armips.exe patch.s");
+	#else
+		mkdir("out", 0777);
+		mkdir("out/0004013000003502", 0777);
+		system("armips patch.s");
+	#endif	
 	return 0;
 }
