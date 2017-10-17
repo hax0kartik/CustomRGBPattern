@@ -36,18 +36,6 @@ int main()
 	pat.g[30] = (rgb >> 8) & 0xFF;
 	pat.b[30] = (rgb >> 0) & 0xFF;
 	
-	/*
-	for(int i = 1; i != 32; i++)
-	{
-		pat.r[i] = 0xFF - round;
-		if(i <  16)
-		round -= 17;
-		else
-		round += 17;	
-	} 
-	*/
-	
-	
 	fprintf(file, "patch:\n");
 	fprintf(file, "//pat red\n");
 	for(int i = 0; i!=32; i+=1)
