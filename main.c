@@ -1,7 +1,7 @@
 
 /* The MIT License
 
-   Copyright (c) 2011 by Attractive Chaos <attractor@live.co.uk>
+   Copyright (c) 2017 by Kartik/Pirater12 <pokemonemerald0@gmail.com>
 
    Permission is hereby granted, free of charge, to any person obtaining
    a copy of this software and associated documentation files (the
@@ -23,9 +23,6 @@
    CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
    SOFTWARE.
 */
-
-// This file implements an improved algorithm of Guenter Stertenbrink's suexco.c
-// (http://magictour.free.fr/suexco.txt).
 
 #include <stdlib.h>
 #include <stdint.h>
