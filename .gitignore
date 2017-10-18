@@ -1,0 +1,19 @@
+# To properly ignore non-Windows executables, we need to use negation patterns within .gitignore
+# This is because we aren't able to ignore a specific extension on an extensionless file
+# More info: https://stackoverflow.com/a/19023985
+
+# Ignore everything by default
+*
+
+# Don't ignore directories
+!/**/
+
+# Ignore the "out" directory specifically
+/out
+
+# Don't ignore markdown and .c files
+!*.md
+!*.c
+
+# Don't ignore this file
+!.gitignore
