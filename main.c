@@ -17,8 +17,6 @@ int main()
 	uint32_t rgb = 0;
 	printf("Type in the hex rgb and press Enter:\n");
 	scanf("%X", &rgb);
-	FILE *file = fopen("patch.s", "wb+");
-	fprintf(file, ".arm.little\n\n.open \"code.bin\", \"out/0004013000003502/code.bin\", 0x100000\n\n.thumb\n.org 0x%X\n\n", addr);
 	led pat;
 	memset(&pat.r[0], 0, 32); 
 	memset(&pat.g[0], 0, 32); 
@@ -46,39 +44,28 @@ int main()
 		round += 17;	
 	} 
 	*/
-	
-	
-	fprintf(file, "patch:\n");
-	fprintf(file, "//pat red\n");
-	for(int i = 0; i!=32; i+=1)
-		fprintf(file, "		dcb 0x%X\n", pat.r[i]);
-	fprintf(file, "//pat green\n");
-	for(int i = 0; i!=32; i+=1)
-		fprintf(file, "		dcb 0x%X\n", pat.g[i]);
-	fprintf(file, "//pat blue\n");
-	for(int i = 0; i!=32; i+=1)
-		fprintf(file, "		dcb 0x%X\n", pat.b[i]);
-	fprintf(file, "\n.org 0x%X\n", addr2);
-	fprintf(file, "patch1:\n");
-	fprintf(file, "//pat red\n");
-	for(int i = 0; i!=32; i+=1)
-		fprintf(file, "		dcb 0x%X\n", pat.r[i]);
-	fprintf(file, "//pat green\n");
-	for(int i = 0; i!=32; i+=1)
-		fprintf(file, "		dcb 0x%X\n", pat.g[i]);
-	fprintf(file, "//pat blue\n");
-	for(int i = 0; i!=32; i+=1)
-		fprintf(file, "		dcb 0x%X\n", pat.b[i]);
-	fprintf(file, ".close");
-	fclose(file);
 	#ifdef _WIN32
 		mkdir("out");
 		mkdir("out/0004013000003502");
-		system("armips.exe patch.s");
 	#else
 		mkdir("out", 0777);
 		mkdir("out/0004013000003502", 0777);
-		system("armips patch.s");
 	#endif	
+	FILE *file = fopen("out/0004013000003502/code.ips", "wb+");
+	char *header = "PATCH";
+	fwrite(header, 5, 1, file);
+	fputc(00, file);
+	fputc(0xA1, file);//addr
+	fputc(0x94, file);//addr
+	fputc(0x00, file);
+	fputc(0xC3, file);//size
+	fwrite(&pat, sizeof(pat), 1, file);
+	fputc(0x50, file);
+	fputc(0x3C, file);
+	fputc(0xFF, file);
+	fwrite(&pat, sizeof(pat), 1, file);
+	char *end = "EOF";
+	fwrite(end, 3, 1, file);
+	fclose(file);
 	return 0;
 }
